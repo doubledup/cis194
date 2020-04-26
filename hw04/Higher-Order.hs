@@ -33,3 +33,10 @@ getHeight (Node h _ _ _) = h
 -- calculate the height of a node in a binary tree given its two children
 newHeight :: Tree a -> Tree a -> Height
 newHeight left right = succ . foldr max 0 $ map getHeight [left, right]
+
+-- ex3
+xor :: [Bool] -> Bool
+xor = foldr (\x y -> (x && not y) || (y && not x)) False
+
+map' :: (a -> b) -> [a] -> [b]
+map' f = foldr (\x y -> (f x) : y) []
