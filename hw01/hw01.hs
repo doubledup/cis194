@@ -12,19 +12,13 @@ toDigits n
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev n = reverse . toDigits $ n
 
-timesN :: Integer -> Integer -> Integer
-timesN n = (* n)
+-- Exercise 2
 
 doubleEveryOther :: [Integer] -> [Integer]
-doubleEveryOther [] = []
-doubleEveryOther l = reverse $ mapEveryOther (timesN 2) (reverse l)
+doubleEveryOther l = reverse $ mapEveryOther (*2) (reverse l)
 
 mapEveryOther :: (a -> a) -> [a] -> [a]
-mapEveryOther f (x:y:l)
-  | length l `mod` 2 == 0 = x : (f y) : (mapEveryOther f l)
-  | otherwise             = (f x) : y : (mapEveryOther f l)
-mapEveryOther f (x:[]) = [x]
-mapEveryOther f [] = []
+mapEveryOther f l = map (\(i, x) -> if i `mod` 2 == 0 then f x else x) $ zip [1..] l
 
 sumDigits :: [Integer] -> Integer
 sumDigits [] = 0
