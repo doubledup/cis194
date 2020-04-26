@@ -47,10 +47,18 @@ map' f = foldr (\x y -> f x : y) []
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
 myFoldl f = foldr (flip f)
 
--- ex4
-genList :: Integer -> [Integer]
-genList n = let exclude_these = [x+y+2*x*y | x <- [1..(quot n 3)], y <- [1..(quot n 3)], x <= y, x+y+2*x*y <= n]
-            in [x | x <- [1..n], x `notElem` exclude_these]
+-- ex6
+cartProd :: [a] -> [b] -> [(a, b)]
+cartProd xs ys = [(x, y) | x <- xs, y <- ys]
 
 sieveSundaram :: Integer -> [Integer]
-sieveSundaram = map (\x -> 2*x+1) . genList
+sieveSundaram n = map ((+1) . (*2)) . filter (`notElem` exclude_these) $ [1..n]
+                  where exclude_these = map (\(i, j) -> i+j+2*i*j)
+                                          (filter (\(i, j) -> i <= j && i+j+2*i*j <= n) (cartProd [1..n] [1..n]))
+
+genList :: Integer -> [Integer]
+genList n = let exclude_these = [i+j+2*i*j | i <- [1..n], j <- [1..n], i <= j, i+j+2*i*j <= n]
+            in [x | x <- [1..n], x `notElem` exclude_these]
+
+sieveSundaram' :: Integer -> [Integer]
+sieveSundaram' = map (\x -> 2*x+1) . genList
