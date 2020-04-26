@@ -1,3 +1,7 @@
+{-# LANGUAGE FlexibleInstances #-}
+
+module Calc where
+import qualified Data.Map as M
 import ExprT
 import Parser
 
@@ -45,3 +49,41 @@ instance Expr Mod7 where
   lit = Mod7 . flip mod 7
   add (Mod7 x) (Mod7 y) = Mod7 . flip mod 7 $ x + y
   mul (Mod7 x) (Mod7 y) = Mod7 . flip mod 7 $ x * y
+
+-- ex 6
+class HasVars a where
+  var :: String -> a
+
+data VarExprT = Lit' Integer
+              | Add' VarExprT VarExprT
+              | Mul' VarExprT VarExprT
+              | Var String
+
+instance Expr VarExprT where
+  lit = Lit'
+  add = Add'
+  mul = Mul'
+
+instance HasVars VarExprT where
+  var = Var
+
+instance Expr (M.Map String Integer -> Maybe Integer) where
+  lit x = Just . (const x)
+  add f g m = liftMaybe2 (+) (f m) (g m)
+  mul f g m = liftMaybe2 (*) (f m) (g m)
+  -- add f g m = pure (+) <*> (f m) <*> (g m)
+  -- mul f g m = pure (*) <*> (f m) <*> (g m)
+  -- add f g m = CM.liftM2 (+) (f m) (g m)
+  -- mul f g m = CM.liftM2 (*) (f m) (g m)
+
+liftMaybe2 :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+liftMaybe2 f (Just x) (Just y) = Just $ f x y
+liftMaybe2 f _ _ = Nothing
+
+instance HasVars (M.Map String Integer -> Maybe Integer) where
+  var = M.lookup
+
+withVars :: [(String, Integer)]
+         -> (M.Map String Integer -> Maybe Integer)
+         -> Maybe Integer
+withVars vs exp = exp $ M.fromList vs
