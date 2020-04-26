@@ -3,16 +3,9 @@
 module Golf where
 
 --1-----------------------------------------------------------------------------
--- e stands for 'every n'. It takes every nth item from a list l.
--- Each item in l is paired with its position (a number). Then this list of
--- pairs is filtered so that only those whose position is divisible by n remain.
--- Finally, the items are extracted from the pairs.
-e :: [a] -> Int -> [a]
-e l n = map fst $ filter (\x -> mod (snd x) n == 0) $ zip l [1..length l]
-
 skips :: [a] -> [[a]]
-skips l = map (e l) [1..length l]
-
+skips l = map (\n -> map fst . filter (\x -> mod (snd x) n == 0) $ zip l s) s
+    where s = [1..length l]
 
 --2-----------------------------------------------------------------------------
 localMaxima :: [Integer] -> [Integer]
