@@ -1,9 +1,11 @@
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances,TypeSynonymInstances #-}
 
 module Calc where
 import qualified Data.Map as M
+-- import qualified Control.Monad as CM
 import ExprT
 import Parser
+import qualified StackVM as SVM
 
 -- ex 1
 eval :: ExprT -> Integer
@@ -49,6 +51,15 @@ instance Expr Mod7 where
   lit = Mod7 . flip mod 7
   add (Mod7 x) (Mod7 y) = Mod7 . flip mod 7 $ x + y
   mul (Mod7 x) (Mod7 y) = Mod7 . flip mod 7 $ x * y
+
+-- ex 5
+instance Expr SVM.Program where
+  lit x = [SVM.PushI x]
+  add x y = x ++ y ++ [ SVM.Add ]
+  mul x y = x ++ y ++ [ SVM.Mul ]
+
+compile :: String -> Maybe SVM.Program
+compile = parseExp lit add mul
 
 -- ex 6
 class HasVars a where
