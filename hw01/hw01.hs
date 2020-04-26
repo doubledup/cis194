@@ -30,6 +30,8 @@ sumDigits = sum . map (sum . toDigits)
 validate :: Integer -> Bool
 validate n = mod (sumDigits . doubleEveryOther . toDigits $ n) 10 == 0
 
+-- Exercise 5
+
 type Peg = String
 type Move = (String, String)
 hanoi :: Integer -> Peg -> Peg -> Peg -> [Move]
