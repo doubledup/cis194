@@ -31,8 +31,6 @@ instance Show a => Show (Stream a) where
   show = show . take 20 . streamToList
 
 -- ex 4
-x $$ f = f $ x
-
 constructRepeater :: (a -> b -> b) -> a -> b
 constructRepeater f x = f x $ constructRepeater f x
 
