@@ -1,3 +1,5 @@
+module HigherOrder where
+
 -- ex1
 fun1' :: [Integer] -> Integer
 fun1' = product . map (subtract 2) . filter even
@@ -22,7 +24,7 @@ getHeight (Node h _ _ _) = h
 
 -- calculate the height of a node in a binary tree given its two children
 newHeight :: Tree a -> Tree a -> Height
-newHeight left right = succ . foldr max 0 $ map getHeight [left, right]
+newHeight left right = succ . maximum $ map getHeight [left, right]
 
 balancedAdd :: a -> Tree a -> Tree a
 balancedAdd x Leaf = Node 0 Leaf x Leaf
@@ -33,6 +35,7 @@ balancedAdd x (Node _ left@(Node height_left _ _ _) y right@(Node height_right _
         in Node (newHeight new_left right) new_left y right
     | otherwise = let new_right = balancedAdd x right
         in Node (newHeight left new_right) left y new_right
+balancedAdd _ tree = tree -- TODO: raise exception on invalid tree structure
 
 -- ex3
 xor :: [Bool] -> Bool
@@ -44,10 +47,18 @@ map' f = foldr (\x y -> f x : y) []
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
 myFoldl f = foldr (flip f)
 
--- ex4
-genList :: Integer -> [Integer]
-genList n = let exclude_these = [x+y+2*x*y | x <- [1..(quot n 3)], y <- [1..(quot n 3)], x <= y, x+y+2*x*y <= n]
-            in [x | x <- [1..n], x `notElem` exclude_these]
+-- ex6
+cartProd :: [a] -> [b] -> [(a, b)]
+cartProd xs ys = [(x, y) | x <- xs, y <- ys]
 
 sieveSundaram :: Integer -> [Integer]
-sieveSundaram = map (\x -> 2*x+1) . genList
+sieveSundaram n = map ((+1) . (*2)) . filter (`notElem` exclude_these) $ [1..n]
+                  where exclude_these = map (\(i, j) -> i+j+2*i*j)
+                                          (filter (\(i, j) -> i <= j && i+j+2*i*j <= n) (cartProd [1..n] [1..n]))
+
+genList :: Integer -> [Integer]
+genList n = let exclude_these = [i+j+2*i*j | i <- [1..n], j <- [1..n], i <= j, i+j+2*i*j <= n]
+            in [x | x <- [1..n], x `notElem` exclude_these]
+
+sieveSundaram' :: Integer -> [Integer]
+sieveSundaram' = map (\x -> 2*x+1) . genList
