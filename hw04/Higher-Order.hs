@@ -17,38 +17,37 @@ foldTree :: [a] -> Tree a
 foldTree = foldr balancedAdd Leaf
 
 getHeight :: Tree a -> Height
-getHeight Leaf = 0
+getHeight Leaf           = 0
 getHeight (Node h _ _ _) = h
 
 -- calculate the height of a node in a binary tree given its two children
 newHeight :: Tree a -> Tree a -> Height
 newHeight left right = succ . foldr max 0 $ map getHeight [left, right]
 
-balancedAdd :: a -> (Tree a) -> (Tree a)
+balancedAdd :: a -> Tree a -> Tree a
 balancedAdd x Leaf = Node 0 Leaf x Leaf
 balancedAdd x (Node 0 Leaf y Leaf) = Node 1 (Node 0 Leaf x Leaf) y Leaf
 balancedAdd x (Node 1 left_child y Leaf) = Node 1 left_child y (Node 0 Leaf x Leaf)
 balancedAdd x (Node _ left@(Node height_left _ _ _) y right@(Node height_right _ _ _))
-    | height_left < height_right = let new_left = (balancedAdd x left)
-        in (Node (newHeight new_left right) new_left y right)
-    | otherwise = let new_right = (balancedAdd x right)
-        in (Node (newHeight left new_right) left y new_right)
+    | height_left < height_right = let new_left = balancedAdd x left
+        in Node (newHeight new_left right) new_left y right
+    | otherwise = let new_right = balancedAdd x right
+        in Node (newHeight left new_right) left y new_right
 
 -- ex3
 xor :: [Bool] -> Bool
 xor = foldr (\x y -> (x && not y) || (y && not x)) False
 
 map' :: (a -> b) -> [a] -> [b]
-map' f = foldr (\x y -> (f x) : y) []
+map' f = foldr (\x y -> f x : y) []
 
 myFoldl :: (a -> b -> a) -> a -> [b] -> a
-myFoldl f base xs = foldr (\x y -> f y x) base xs
+myFoldl f = foldr (flip f)
 
 -- ex4
 genList :: Integer -> [Integer]
 genList n = let exclude_these = [x+y+2*x*y | x <- [1..(quot n 3)], y <- [1..(quot n 3)], x <= y, x+y+2*x*y <= n]
-            in [x | x <- [1..n], not $ elem x exclude_these]
+            in [x | x <- [1..n], x `notElem` exclude_these]
 
 sieveSundaram :: Integer -> [Integer]
 sieveSundaram = map (\x -> 2*x+1) . genList
-
