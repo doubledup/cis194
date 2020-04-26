@@ -22,7 +22,7 @@ getHeight (Node h _ _ _) = h
 
 -- calculate the height of a node in a binary tree given its two children
 newHeight :: Tree a -> Tree a -> Height
-newHeight left right = succ . foldr max 0 $ map getHeight [left, right]
+newHeight left right = succ . maximum $ map getHeight [left, right]
 
 balancedAdd :: a -> Tree a -> Tree a
 balancedAdd x Leaf = Node 0 Leaf x Leaf
