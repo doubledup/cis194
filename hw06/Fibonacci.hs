@@ -45,8 +45,8 @@ streamRepeat = constructRepeater Item
 instance Foldable Stream where
   foldr f a (Item x ss) = f x ( foldrStreams f a ss )
 
-streamMap :: (a -> b) -> Stream a -> Stream b
-streamMap f (Item x s) = Item ( f x ) ( streamMap f s )
+instance Functor Stream where
+  fmap f (Item x s) = Item ( f x ) ( fmap f s )
 
 -- collatz :: Integer -> Integer
 -- collatz 1 = 1
@@ -79,4 +79,4 @@ foldrStreams f a (Item x ss) = f x ( foldrStreams f a ss )
 -- interleaving = foldr interleave [] ( map repeat [0..100] )
 
 ruler :: Stream Integer
-ruler = foldrStreams interleaveStreams undefined ( streamMap streamRepeat nats )
+ruler = foldrStreams interleaveStreams undefined ( fmap streamRepeat nats )
