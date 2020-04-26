@@ -42,6 +42,9 @@ streamRepeat = constructRepeater Item
 -- listToStream :: [a] -> Stream a
 -- listToStream (x:xs) = Item x $ listToStream xs
 
+instance Foldable Stream where
+  foldr f a (Item x ss) = f x ( foldrStreams f a ss )
+
 streamMap :: (a -> b) -> Stream a -> Stream b
 streamMap f (Item x s) = Item ( f x ) ( streamMap f s )
 
