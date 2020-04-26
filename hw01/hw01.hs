@@ -10,7 +10,7 @@ toDigits n
   | otherwise = map (toInteger . digitToInt) $ show n
 
 toDigitsRev :: Integer -> [Integer]
-toDigitsRev n = reverse . toDigits $ n
+toDigitsRev = reverse . toDigits
 
 -- Exercise 2
 
