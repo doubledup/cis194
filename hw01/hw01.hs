@@ -49,8 +49,9 @@ hanoi4 n a b c d
                 [(a, b)] ++
                 (hanoi bottomHalf d b a) ++
                 (hanoi4 topHalf c b a d)
-  where topHalf = floor (((fromInteger n) - 1) / 2)
-        bottomHalf = ceiling (((fromInteger n) - 1) / 2)
+  where firstSetRatio = 75 / 100
+        topHalf = floor (((fromInteger n) - 1) * firstSetRatio)
+        bottomHalf = ceiling (((fromInteger n) - 1) * (1 - firstSetRatio))
 
 main = do
   print . toDigits $ 4012888888881881
