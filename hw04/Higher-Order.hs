@@ -35,6 +35,7 @@ balancedAdd x (Node _ left@(Node height_left _ _ _) y right@(Node height_right _
         in Node (newHeight new_left right) new_left y right
     | otherwise = let new_right = balancedAdd x right
         in Node (newHeight left new_right) left y new_right
+balancedAdd _ tree = tree -- TODO: raise exception on invalid tree structure
 
 -- ex3
 xor :: [Bool] -> Bool
