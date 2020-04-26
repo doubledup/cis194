@@ -33,6 +33,9 @@ c l n = toInteger . length $ filter (\x -> x == n) l
 f :: [Integer] -> (Integer, Integer) -> [Integer]
 f l (low, hi) = map (c l) [low..hi]
 
+-- Given a list l of the count of numbers (where each number is given by the
+-- relevant index), construct a histogram of these numbers without labels for
+-- axes.
 g :: [Integer] -> String
 g [] = ""
 g l
@@ -41,6 +44,8 @@ g l
                 ++ "\n"
                 ++ (map (\x -> if x > 0 then '*' else ' ') l)
 
+-- Given a list l of numbers, create a histogram with a labelled horizontal
+-- axis.
 histogram :: [Integer] -> String
 histogram l = g (f l (0,9)) ++ "\n==========\n0123456789\n"
 
