@@ -9,7 +9,7 @@ eval (Mul e1 e2) = eval e1 * eval e2
 
 -- ex 2
 evalStr :: String -> Maybe Integer
-evalStr s = fmap eval $ (parseExp Lit Add Mul) s
+evalStr = fmap eval . (parseExp Lit Add Mul)
 
 -- ex 3
 class Expr a where
