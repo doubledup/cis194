@@ -34,26 +34,26 @@ histogram :: [Integer] -> String
 histogram l = p (zipWith (\ x y -> length . filter (==x) $ y) [0..9] (repeat l))
               ++ "\n==========\n0123456789\n"
 
-
 main :: IO()
 main = do
-  --print "test cases for skips:"
-  --print $ skips "ABCD"
-  --print $ skips "hello!"
-  --print $ skips [1]
-  --print $ skips [True, False]
-  --print $ skips ([] :: [Int])
+  putStrLn "Running test cases..."
+  putStrLn ""
 
-  --print $ skips "hello!"
-  --print $ skips ""
-  --print $ skips [1..10]
+  putStrLn "Exercise 1: Hopscotch"
+  print $ skips "ABCD"
+  print $ skips "hello!"
+  print $ skips [1]
+  print $ skips [True, False]
+  print $ skips ""
+  putStrLn ""
 
-  --print "test cases for localMaxima"
-  --print $ localMaxima [2,9,5,6,1]
-  --print $ localMaxima [2,3,4,1,5]
-  --print $ localMaxima [1..5]
-  --print $ localMaxima [9,3,5,4,7,7,7,45,3]
+  putStrLn "Exercise 2: Local Maxima"
+  print $ localMaxima [2,9,5,6,1]
+  print $ localMaxima [2,3,4,1,5]
+  print $ localMaxima [1..5]
+  putStrLn ""
 
-  print $ c [3,6,5,7,4,1,3,3,6,5,2,8,9,0,7,3] 3
-
-  print $ histogram [1,1,1,5]
+  putStrLn "Exercise 3: Histogram"
+  putStrLn $ histogram [1,1,1,5]
+  putStrLn  $ histogram [1,4,5,4,6,6,3,4,2,4,9]
+  putStrLn ""
