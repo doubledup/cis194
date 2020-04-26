@@ -44,7 +44,13 @@ hanoi4 :: Integer -> Peg -> Peg -> Peg -> Peg -> [Move]
 hanoi4 n a b c d
   | n < 1  = []
   | n == 1 = [(a, b)]
-  | n == 2 = [(a, c)]
+  | otherwise = (hanoi topHalf a c b) ++
+                (hanoi bottomHalf a d b) ++
+                [(a, b)] ++
+                (hanoi bottomHalf d b a) ++
+                (hanoi topHalf c b a)
+  where topHalf = floor (((fromInteger n) - 1) / 2)
+        bottomHalf = ceiling (((fromInteger n) - 1) / 2)
 
 main = do
   print . toDigits $ 4012888888881881
