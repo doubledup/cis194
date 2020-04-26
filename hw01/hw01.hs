@@ -52,3 +52,4 @@ main = do
   print . validate $ 4012888888881881
   print . validate $ 4012888888881882
   print (hanoi 15 "a" "b" "c")
+
