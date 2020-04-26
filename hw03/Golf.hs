@@ -42,7 +42,7 @@ graph l
                 ++ (map (\x -> if x > 0 then '*' else ' ') l)
 
 histogram :: [Integer] -> String
-histogram l = graph (freq l (0,9)) ++ "==========\n0123456789\n"
+histogram l = graph (freq l (0,9)) ++ "\n==========\n0123456789\n"
 
 main :: IO()
 main = do
