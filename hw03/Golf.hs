@@ -16,31 +16,20 @@ localMaxima :: [Integer] -> [Integer]
 localMaxima l = map (\(x, y, z) -> y) . filter (\(x, y, z) -> x < y && y > z) $ t l
 
 --3-----------------------------------------------------------------------------
--- Given a list l and a number n, count the occurrences of n in l
-c :: [Integer] -> Integer -> Integer
-c [] _ = 0
-c l n = toInteger . length $ filter (\x -> x == n) l
-
--- Given a list l and a pair of inclusive bounds (low, hi), return the number
--- of times each number in the bounds appears in l.
-f :: [Integer] -> (Integer, Integer) -> [Integer]
-f l (low, hi) = map (c l) [low..hi]
-
--- Given a list l of the count of numbers (where each number is given by the
--- relevant index), construct a histogram of these numbers without labels for
--- axes.
-g :: [Integer] -> String
-g [] = ""
-g l
-  | length l == length (filter (\x -> x == 0) l) = ""
-  | otherwise = g (map (\x -> if x > 0 then x - 1 else x) l)
+-- p stands for 'partial histogram'. Given a list of Ints representing the
+-- counts of numbers from 0 upwards, create a string representing a histogram of
+-- these values without any axes.
+p :: [Int] -> String
+p l
+  | all (==0) l = ""
+  | otherwise = [if x == maximum l then '*' else ' ' | x <- l]
                 ++ "\n"
-                ++ (map (\x -> if x > 0 then '*' else ' ') l)
+                ++ p [if x == maximum l then x - 1 else x | x <- l]
 
--- Given a list l of numbers, create a histogram with a labelled horizontal
--- axis.
 histogram :: [Integer] -> String
-histogram l = g (f l (0,9)) ++ "\n==========\n0123456789\n"
+histogram l = p (zipWith (\ x y -> length . filter (==x) $ y) [0..9] (repeat l))
+              ++ "\n==========\n0123456789\n"
+
 
 main :: IO()
 main = do
