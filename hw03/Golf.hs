@@ -8,12 +8,16 @@ skips l = map (\n -> map fst . filter (\x -> mod (snd x) n == 0) $ zip l s) s
     where s = [1..length l]
 
 --2-----------------------------------------------------------------------------
+-- t stands for 'triples'. Given a list, group its elements into triples of
+-- contiguous values from the list.
 t :: [a] -> [(a, a, a)]
 t (a:b:c:xs) = (a,b,c):(t $ b:c:xs)
 t _ = []
 
 localMaxima :: [Integer] -> [Integer]
-localMaxima l = map (\(x, y, z) -> y) . filter (\(x, y, z) -> x < y && y > z) $ t l
+localMaxima l = map (\(x, y, z) -> y)
+                . filter (\(x, y, z) -> x < y && y > z)
+                $ t l
 
 --3-----------------------------------------------------------------------------
 -- p stands for 'partial histogram'. Given a list of Ints representing the
