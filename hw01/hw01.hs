@@ -20,9 +20,10 @@ doubleEveryOther l = reverse $ mapEveryOther (*2) (reverse l)
 mapEveryOther :: (a -> a) -> [a] -> [a]
 mapEveryOther f l = map (\(i, x) -> if i `mod` 2 == 0 then f x else x) $ zip [1..] l
 
+-- Exercise 3
+
 sumDigits :: [Integer] -> Integer
-sumDigits [] = 0
-sumDigits (x:xs) = (sumDigits xs) + (sum . toDigits $ x)
+sumDigits = sum . map (sum . toDigits)
 
 validate :: Integer -> Bool
 validate n = mod (sumDigits . doubleEveryOther . toDigits $ n) 10 == 0
