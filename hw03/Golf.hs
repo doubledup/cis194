@@ -8,12 +8,12 @@ skips l = map (\n -> map fst . filter (\x -> mod (snd x) n == 0) $ zip l s) s
     where s = [1..length l]
 
 --2-----------------------------------------------------------------------------
-localMaxima :: [Integer] -> [Integer]
-localMaxima (b:c:[]) = []
-localMaxima (a:b:c:x)
-  | and [a < b, b < c] = b:(localMaxima $ b:c:x)
-  | otherwise          = localMaxima $ b:c:x
+t :: [a] -> [(a, a, a)]
+t (a:b:c:xs) = (a,b,c):(t $ b:c:xs)
+t _ = []
 
+localMaxima :: [Integer] -> [Integer]
+localMaxima l = map (\(x, y, z) -> y) . filter (\(x, y, z) -> x < y && y > z) $ t l
 
 --3-----------------------------------------------------------------------------
 -- Given a list l and a number n, count the occurrences of n in l
