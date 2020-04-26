@@ -18,7 +18,8 @@ doubleEveryOther :: [Integer] -> [Integer]
 doubleEveryOther l = reverse $ mapEveryOther (*2) (reverse l)
 
 mapEveryOther :: (a -> a) -> [a] -> [a]
-mapEveryOther f l = map (\(i, x) -> if i `mod` 2 == 0 then f x else x) $ zip [1..] l
+mapEveryOther f l = map applyToEven $ zip [1..] l
+  where applyToEven = (\(i, x) -> if i `mod` 2 == 0 then f x else x)
 
 -- Exercise 3
 
