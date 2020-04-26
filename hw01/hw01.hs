@@ -1,3 +1,5 @@
+import Data.Char (digitToInt)
+
 -- CIS 194 Homework 1
 
 -- Exercise 1
