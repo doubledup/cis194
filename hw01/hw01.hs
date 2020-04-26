@@ -1,9 +1,11 @@
 -- CIS 194 Homework 1
 
+-- Exercise 1
+
 toDigits :: Integer -> [Integer]
 toDigits n
-  | n <= 0   = []
-  | otherwise = toDigits (n `div` 10) ++ [n `mod` 10]
+  | n <= 0    = []
+  | otherwise = map (toInteger . digitToInt) $ show n
 
 toDigitsRev :: Integer -> [Integer]
 toDigitsRev n = reverse . toDigits $ n
