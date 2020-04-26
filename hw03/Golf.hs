@@ -5,7 +5,7 @@ module Golf where
 --1-----------------------------------------------------------------------------
 skips :: [a] -> [[a]]
 skips l = map (\n -> map fst . filter (\x -> mod (snd x) n == 0) $ zip l s) s
-    where s = [1..length l]
+    where s = [1..]
 
 --2-----------------------------------------------------------------------------
 -- t stands for 'triples'. Given a list, group its elements into triples of
