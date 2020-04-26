@@ -25,6 +25,8 @@ mapEveryOther f l = map (\(i, x) -> if i `mod` 2 == 0 then f x else x) $ zip [1.
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . map (sum . toDigits)
 
+--Exercise 4
+
 validate :: Integer -> Bool
 validate n = mod (sumDigits . doubleEveryOther . toDigits $ n) 10 == 0
 
