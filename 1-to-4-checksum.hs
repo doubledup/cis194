@@ -16,4 +16,9 @@ doubleEveryOtherFromLeft [] = []
 doubleEveryOtherFromLeft (x:[]) = [x]
 doubleEveryOtherFromLeft (x:y:xs) = x : (2*y) : doubleEveryOtherFromLeft xs
 
-main = print $ doubleEveryOther [1, 1, 2, 3, 5, 8, 13]
+-- main = print $ doubleEveryOther [1, 1, 2, 3, 5, 8, 13]
+
+sumDigits :: [Integer] -> Integer
+sumDigits = sum . (map $ sum . toDigits)
+
+main = print $ sumDigits [1, 131, 24, 42, 987]
