@@ -21,4 +21,11 @@ doubleEveryOtherFromLeft (x:y:xs) = x : (2*y) : doubleEveryOtherFromLeft xs
 sumDigits :: [Integer] -> Integer
 sumDigits = sum . (map $ sum . toDigits)
 
-main = print $ sumDigits [1, 131, 24, 42, 987]
+-- main = print $ sumDigits [1, 131, 24, 42, 987]
+
+validate :: Integer -> Bool
+validate = (\x -> x `mod` 10 == 0) . sumDigits . doubleEveryOther . toDigits
+
+main = do
+  print $ validate 4012888888881881
+  print $ validate 4012888888881882
