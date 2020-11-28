@@ -8,11 +8,12 @@ main = do
   print $ skips [1]
   print $ skips [True, False]
 
-skips xs =
-  map (takeEveryNth) $ zip [1..length xs] (repeat xs)
+skips :: [a] -> [[a]]
+skips x =
+  map (t) $ zip [1..length x] (repeat x)
 
-takeEveryNth (n, xs)
-  = map (\(_b, x) -> x)
-  . filter (\(b, _x) -> b)
-  . map (\(i, x) -> if i `mod` n == 0 then (True, x) else (False, x))
-  $ zip [1..length xs] xs
+t :: (Int, [a]) -> [a]
+t (n, x)
+  = map snd
+  . filter (\(i, _) -> i `mod` n == 0)
+  $ zip [1..length x] x
